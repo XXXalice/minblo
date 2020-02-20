@@ -1,2 +1,2 @@
-# diary
+# minblo
 minimal_diary
