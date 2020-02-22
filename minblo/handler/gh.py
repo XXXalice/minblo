@@ -15,7 +15,8 @@ class GithubApis:
         configをロード
         """
         config_path = os.path.join('/'.join(inspect.stack()[0][1].split('/')[:-1]), CONFIG_FILE_NAME) # handler/:CONFIG_FILE_NAME
-        self.config = yaml.load(config_path) # return type: dict
+        with open(config_path, 'r+') as f:
+            self.config = yaml.load(f) # return type dict
 
 
 
