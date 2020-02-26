@@ -1,5 +1,6 @@
 import yaml
 import inspect
+import requests
 import sys
 import os
 
@@ -17,7 +18,34 @@ class GithubApis:
         config_path = os.path.join('/'.join(inspect.stack()[0][1].split('/')[:-1]), CONFIG_FILE_NAME) # handler/:CONFIG_FILE_NAME
         with open(config_path, 'r+') as f:
             self.config = yaml.load(f) # return type dict
+        self.api_uri =  "https://api.github.com/repos/{}/{}/"
 
+    def get_issues(self):
+        self.api_uri = self.api_uri.format(
+            self.config["github"]["id"],
+            self.config["github"]["repo"]
+        ) + "issues"
+        try:
+            raw_issues_datas = requests.get(self.api_uri)
+        except Exception as e:
+            print(e)
+            return
+
+        return raw_issues_datas
+
+    def fetch_issues(self, raw_datas, origin_rules=None):
+        import re
+        correct_items = []
+        pattern = r"$\d{4}/d{2}/d{2}" if origin_rules == None else origin_rules
+        for data in raw_datas:
+            judge = re.match(pattern , data["title"])
+            if judge:
+                item = { "title": data["title"],
+                         "date": data["created_at"],
+                         "body": data["body"]}
+                correct_items.append(item)
+
+        return correct_items
 
 
 if __name__ == '__main__':
