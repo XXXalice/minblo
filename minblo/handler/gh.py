@@ -26,14 +26,26 @@ class GithubApis:
             self.config["github"]["repo"]
         ) + "issues"
         try:
-            raw_issues_data = requests.get(self.api_uri)
+            raw_issues_datas = requests.get(self.api_uri)
         except Exception as e:
             print(e)
             return
 
-        return raw_issues_data
+        return raw_issues_datas
 
+    def fetch_issues(self, raw_datas, origin_rules=None):
+        import re
+        correct_items = []
+        pattern = r"$\d{4}/d{2}/d{2}" if origin_rules == None else origin_rules
+        for data in raw_datas:
+            judge = re.match(pattern , data["title"])
+            if judge:
+                item = { "title": data["title"],
+                         "date": data["created_at"],
+                         "body": data["body"]}
+                correct_items.append(item)
 
+        return correct_items
 
 
 if __name__ == '__main__':
