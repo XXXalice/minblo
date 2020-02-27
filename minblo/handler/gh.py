@@ -21,12 +21,16 @@ class GithubApis:
         self.api_uri =  "https://api.github.com/repos/{}/{}/"
 
     def get_issues(self):
+        """
+        GitHub APIより指定した指定したリポジトリのissuesを取得
+        :return: list（リポジトリ内部の全issues）
+        """
         self.api_uri = self.api_uri.format(
             self.config["github"]["id"],
             self.config["github"]["repo"]
         ) + "issues"
         try:
-            raw_issues_datas = requests.get(self.api_uri)
+            raw_issues_datas = requests.get(self.api_uri).text
         except Exception as e:
             print(e)
             return
@@ -34,6 +38,12 @@ class GithubApis:
         return raw_issues_datas
 
     def fetch_issues(self, raw_datas, origin_rules=None):
+        """
+        全issues内部から必要な物を抽出する
+        :param raw_datas: list 全issues
+        :param origin_rules: str 独自正規表現（基本使わない？）
+        :return: list 抽出済みissues
+        """
         import re
         correct_items = []
         pattern = r"$\d{4}/d{2}/d{2}" if origin_rules == None else origin_rules
@@ -53,3 +63,5 @@ if __name__ == '__main__':
     sys.stdout.write('this script is using github REST apis.')
     api = GithubApis()
     print(api.config)
+    raw_data = api.get_issues()
+    print(raw_data)
