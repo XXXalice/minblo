@@ -9,6 +9,10 @@ def startup_server():
         # root page
         pass
 
+    @app.route('/blogs')
+    def blogs():
+        pass
+
 
 if __name__ == '__main__':
     startup_server()
