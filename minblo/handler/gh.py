@@ -41,7 +41,7 @@ class GithubApis:
 
         return issues
 
-    def fetch_issues(self, raw_issues, origin_rules=None):
+    def fetch_issues(self, raw_issues, origin_rules=None, youngest=False):
         """
         全issues内部から必要な物を抽出する
         :param raw_datas: tuple 全issues
@@ -52,8 +52,11 @@ class GithubApis:
         correct_items = []
         pattern = r"\d{4}/\d{2}/\d{2}" if origin_rules == None else origin_rules
         for data in raw_issues:
-            print(data)
-            judge = re.search(pattern, data["title"])
+            try:
+                judge = re.search(pattern, data["title"])
+            except ValueError as e:
+                print(e)
+                return
             if judge:
                 item = { "title": data["title"],
                          "date": data["created_at"],
