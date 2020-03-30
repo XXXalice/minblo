@@ -9,7 +9,7 @@ def startup_server():
         # root page
         pass
 
-    @app.route('/posts/<int:post_id>')
+    @app.route('/posts/<int:post_id>', method=['GET'])
     def blogs(post_id):
         pass
 
