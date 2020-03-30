@@ -51,17 +51,17 @@ class GithubApis:
         import re
         correct_items = []
         pattern = r"\d{4}/\d{2}/\d{2}" if origin_rules == None else origin_rules
-        try:
-            for data in raw_issues:
+        for data in raw_issues:
+            try:
                 judge = re.search(pattern, data["title"])
-                if judge:
-                    item = { "title": data["title"],
-                             "date": data["created_at"],
-                             "body": data["body"]}
-                    correct_items.append(item)
-        except ValueError as e:
-            print(e)
-            return
+            except ValueError as e:
+                print(e)
+                return
+            if judge:
+                item = { "title": data["title"],
+                         "date": data["created_at"],
+                         "body": data["body"]}
+                correct_items.append(item)
 
         return correct_items
 
