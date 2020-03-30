@@ -1,5 +1,7 @@
 from flask import Flask
 from flask import render_template, request, url_for, jsonify
+from .handler import expert as ex
+import random
 
 def startup_server():
     app = Flask(__name__) # minblo server
@@ -12,6 +14,11 @@ def startup_server():
     @app.route('/posts/<int:post_id>', methods=['GET'])
     def blogs(post_id):
         pass
+
+    @app.route('/ume', methods=['GET'])
+    def umemiya():
+        expert = ex.Expert(class_id=random.randint(256))
+
 
 
 if __name__ == '__main__':
