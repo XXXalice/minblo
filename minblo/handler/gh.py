@@ -40,7 +40,7 @@ class GithubApis:
     def fetch_issues(self, raw_datas, origin_rules=None):
         """
         全issues内部から必要な物を抽出する
-        :param raw_datas: list 全issues
+        :param raw_datas: tuple 全issues
         :param origin_rules: str 独自正規表現（基本使わない？）
         :return: list 抽出済みissues
         """
@@ -60,8 +60,10 @@ class GithubApis:
 
 if __name__ == '__main__':
     # test mode.
+    import pprint
     sys.stdout.write('this script is using github REST apis.')
     api = GithubApis()
     print(api.config)
     raw_data = api.get_issues()
-    print(raw_data)
+    data = api.fetch_issues(raw_datas=raw_data)
+    pprint.pprint(data)
