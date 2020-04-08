@@ -11,14 +11,14 @@ def startup_server():
         # root page
         pass
 
-    @app.route('/posts/<int:post_id>', methods=['GET'])
-    def blogs(post_id):
-        pass
+    @app.route('/posts/<int:post_num>', methods=['GET'])
+    def blogs(post_num):
+        return post_num
+
 
     @app.route('/ume', methods=['GET'])
     def umemiya():
         expert = ex.Expert(class_id=random.randint(256))
-
 
 
 if __name__ == '__main__':
